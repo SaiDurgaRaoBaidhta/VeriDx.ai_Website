@@ -263,10 +263,11 @@ function App() {
                     </ul>
                     <a
                       href="/medical-expert-panel"
-                      className=" btn-primary mt-6 inline-flex"
+                      className="btn-primary mt-6 inline-flex"
                     >
                       Join the panel
                     </a>
+
                   </div>
                 </div>
 
@@ -631,5 +632,4 @@ function App() {
     </div>
   )
 }
-
 export default App

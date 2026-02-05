@@ -78,7 +78,6 @@ function ExpertPanel() {
                     'Thank you. Your information has been captured for review by the VeriDx.ai team.',
                   )
                   form.reset()
-                  window.location.href = '/'
                 }}
               >
                 <div className="space-y-2">
