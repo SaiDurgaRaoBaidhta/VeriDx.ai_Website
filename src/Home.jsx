@@ -239,7 +239,7 @@ function App() {
             <div className="container-page py-6 sm:py-16 ">
               <div className="grid items-start gap-6 lg:grid-cols-12">
                 <div className="lg:col-span-7 mt-10">
-                <div className="text-6xl font-semibold tracking-tight text-ink-700 sm:text-8xl">
+                <div className="text-6xl font-bold tracking-tight text-ink-700 sm:text-8xl">
                     Veri<span className=' text-[#77726fbd] px-2  rounded-lg'>Dx</span>.ai
                   </div>
                   <div className="badge mt-4 text-md">
