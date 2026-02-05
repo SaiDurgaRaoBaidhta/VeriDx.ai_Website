@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-slate-900 antialiased;
+  }
+
+  ::selection {
+    background: rgba(34, 211, 238, 0.25);
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-none px-5 sm:px-10;
+  }
+.expert-panel-container {
+    @apply mx-auto w-full max-w-none px-14 sm:px-20 m-20;
+  }
+  .badge {
+    @apply inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-medium text-slate-700 shadow-sm backdrop-blur;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-ink-700/90 to-ink-900 text-white shadow-soft hover:bg-ink-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink-700;
+  }
+  .btn-secondary {
+    @apply btn border border-slate-200 bg-white/70 text-slate-900 shadow-sm hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink-700;
+  }
+
+  .card {
+    @apply rounded-2xl border border-slate-200 bg-white/70 shadow-soft;
+  }
+  .card-muted {
+    @apply rounded-2xl border border-slate-200 bg-slate-50;
+  }
+
+  .section-title {
+    @apply text-balance text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl;
+  }
+
+  .section-lead {
+    @apply mt-3 max-w-3xl text-pretty text-base leading-relaxed text-slate-600 sm:text-lg;
+  }
+
+  .fineprint {
+    @apply text-sm leading-relaxed text-slate-600;
+  }
+}
