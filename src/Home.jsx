@@ -69,6 +69,7 @@ function Card({ title, children, tone = 'default' }) {
 
 function App() {
   const [activeHref, setActiveHref] = useState('')
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   useEffect(() => {
     const sectionIds = ['approach', 'value', 'who', 'status', 'contact']
@@ -118,7 +119,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white/70 to-slate-50/90">
-      <header className="sticky top-0 z-50  bg-gradient-to-b from-ink-700/5 via-white to-transparent backdrop-blur-2xl shadow-xs">
+      <header className="relative sticky top-0 z-50 bg-gradient-to-b from-ink-700/5 via-white to-transparent backdrop-blur-2xl shadow-xs">
         <div className="container-page flex h-20 items-center gap-4">
           <a href="/" className="flex items-center gap-3">
             <img src={logo} alt="VeriDx.ai" className="w-10 h-10" />
@@ -131,7 +132,8 @@ function App() {
           </a>
 
           <div className="ml-auto flex items-center gap-4">
-            <nav className="hidden items-center gap-2 md:flex">
+            {/* Nav links: only visible from laptop (lg) and up */}
+            <nav className="hidden items-center gap-2 lg:flex">
               {NAV.map((item) => {
                 const isAnchor = item.href.startsWith('#')
                 const isActive = isAnchor && activeHref === item.href
@@ -169,11 +171,65 @@ function App() {
               })}
             </nav>
 
-            <a className="btn-primary" href="mailto:hello@veridx.ai">
+            <a className="btn-primary hidden lg:inline-flex" href="mailto:hello@veridx.ai">
               Contact
             </a>
+
+            {/* Hamburger menu: visible below laptop (tablet + mobile) */}
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen((o) => !o)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white/80 text-slate-700 lg:hidden"
+              aria-expanded={mobileNavOpen}
+              aria-label="Toggle menu"
+            >
+              {mobileNavOpen ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile/tablet nav dropdown – compact card below header (below lg) */}
+        {mobileNavOpen && (
+          <div className="absolute right-4 top-full z-50 mt-2 w-[min(280px,calc(100vw-2rem))] rounded-xl border border-slate-200 bg-white py-2 shadow-lg lg:hidden">
+            <nav className="flex flex-col gap-0.5">
+              {NAV.map((item) => {
+                const isAnchor = item.href.startsWith('#')
+                const isActive = isAnchor && activeHref === item.href
+                const baseClasses =
+                  'block rounded-lg px-4 py-2.5 text-sm font-medium transition-colors'
+                const activeClasses = 'bg-ink-900 text-white'
+                const inactiveClasses = 'text-slate-700 hover:bg-slate-100'
+
+                const handleClick = (e) => {
+                  if (isAnchor) handleNavClick(e, item.href)
+                  setMobileNavOpen(false)
+                }
+
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={handleClick}
+                    className={`${baseClasses} ${isActive ? activeClasses : inactiveClasses}`}
+                  >
+                    {item.label}
+                  </a>
+                )
+              })}
+              <a
+                href="mailto:hello@veridx.ai"
+                className="btn-primary mx-2 mt-1 block text-center text-sm"
+                onClick={() => setMobileNavOpen(false)}
+              >
+                Contact
+              </a>
+            </nav>
+          </div>
+        )}
       </header>
 
       <main id="top" className="bg-gradient-to-b from-[#D1EAE3]/40 via-[#d1eae3]/10 to-[#A8DADC]/20">
@@ -183,7 +239,7 @@ function App() {
             <div className="container-page py-6 sm:py-16 ">
               <div className="grid items-start gap-6 lg:grid-cols-12">
                 <div className="lg:col-span-7 mt-10">
-                <div className="text-4xl font-semibold tracking-tight text-ink-700 sm:text-8xl">
+                <div className="text-6xl font-semibold tracking-tight text-ink-700 sm:text-8xl">
                     Veri<span className=' text-[#77726fbd] px-2  rounded-lg'>Dx</span>.ai
                   </div>
                   <div className="badge mt-4 text-md">
@@ -304,9 +360,9 @@ function App() {
               </div>
             </div>
 
-            <div className="border ml-10 mr-14 py-4 rounded-2xl border-gray-200 bg-white/70 shadow-xs ">
-              <div className="container-page grid gap-4 sm:grid-cols-4">
-                <div className="border border-gray-200 p-4 mx-2 my-4 rounded-2xl shadow-md bg-white/90">
+            <div className="container-page mt-6 rounded-2xl border border-gray-200 bg-white/70 py-4 shadow-xs">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="rounded-2xl border border-gray-200 bg-white/90 p-4 shadow-md">
                   <div className="text-sm font-semibold text-slate-900">
                     Built for scale
                   </div>
@@ -314,7 +370,7 @@ function App() {
                     Uniform analytical rigor across cases.
                   </div>
                 </div>
-                <div className="border border-gray-200 p-4 mx-2 my-4 rounded-2xl shadow-md bg-white/90">
+                <div className="rounded-2xl border border-gray-200 bg-white/90 p-4 shadow-md">
                   <div className="text-sm font-semibold text-slate-900">
                     Evidence-centered
                   </div>
@@ -322,7 +378,7 @@ function App() {
                     Structured insight to augment expert judgment.
                   </div>
                 </div>
-                <div className="border border-gray-200 p-4 mx-2 my-4 rounded-2xl shadow-md bg-white/90">
+                <div className="rounded-2xl border border-gray-200 bg-white/90 p-4 shadow-md">
                   <div className="text-sm font-semibold text-slate-900">
                     Risk-first
                   </div>
@@ -330,7 +386,7 @@ function App() {
                     Early awareness to reduce escalation.
                   </div>
                 </div>
-                <div className="border border-gray-200 p-4 mx-2 my-4 rounded-2xl shadow-md bg-white/90">
+                <div className="rounded-2xl border border-gray-200 bg-white/90 p-4 shadow-md">
                   <div className="text-sm font-semibold text-slate-900">
                     Selective engagements
                   </div>
@@ -533,10 +589,9 @@ function App() {
           title="Working with a limited number of early partners."
           lead="Public demonstrations are not currently available."
         >
-          
-            <div className=" mr-6 lg:col-span-4">
-              <div className="card p-7">
-                <div className="grid gap-4 sm:grid-cols-4">
+            <div className="min-w-0">
+              <div className="card p-4 sm:p-6 md:p-7">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   <Card title="Selective engagement" tone="muted">
                     Engagements are use‑case driven and limited to ensure high
                     quality collaboration.
@@ -578,11 +633,15 @@ function App() {
                       </a>
                     </div>
                   </div> */}
-                  <div>
-                  <a className="bg-gradient-to-r from-ink-700/80 to-ink-900 text-white my-20 mx-[700px] text-center font-semibold text-xl p-4 rounded-2xl flex justify-center items-center" href="mailto:hello@veridx.ai">
-                  hello@veridx.ai
-        </a>
-        </div>
+                 <div className="flex justify-center my-20 sm:my-10">
+  <a
+    href="mailto:hello@veridx.ai"
+    className="btn-primary p-4 flex items-center justify-center"
+  >
+    hello@veridx.ai
+  </a>
+</div>
+
       {/* </div>
                 <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5">
                   <div className="text-sm font-semibold text-slate-900">
